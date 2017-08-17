@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bamboo.module.controller;
+package com.bamboo.module.menu.controller;
 
 import com.bamboo.module.menu.beans.Menu;
-import com.bamboo.module.service.IMenuService;
+import com.bamboo.module.menu.service.IMenuService;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;

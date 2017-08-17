@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bamboo.module.service;
+package com.bamboo.module.menu.service;
 
 import com.bamboo.module.menu.beans.Menu;
 import com.bamboo.module.menu.beans.MenuExample;

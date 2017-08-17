@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bamboo.module.service.impl;
+package com.bamboo.module.menu.service.impl;
 
 import com.bamboo.module.menu.beans.Menu;
 import com.bamboo.module.menu.beans.MenuExample;
 import com.bamboo.module.menu.dao.MenuDao;
-import com.bamboo.module.service.IMenuService;
+import com.bamboo.module.menu.service.IMenuService;
 import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
