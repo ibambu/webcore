@@ -7,7 +7,6 @@ package com.bamboo.module.order.dto;
 
 import com.bamboo.module.order.beans.OrderDetail;
 import com.bamboo.module.order.beans.OrderPrice;
-import java.util.List;
 
 /**
  *
@@ -18,7 +17,7 @@ public class OrderDetailDTO {
     private OrderDetail orderDetail;
     private OrderPrice orderPrice;
 
-    private List<ProductInstDTO> productInsts;
+    private ProductInstDTO productInst;
 
     public OrderPrice getOrderPrice() {
         return orderPrice;
@@ -36,12 +35,13 @@ public class OrderDetailDTO {
         this.orderDetail = orderDetail;
     }
 
-    public List<ProductInstDTO> getProductInsts() {
-        return productInsts;
+    public ProductInstDTO getProductInst() {
+        return productInst;
     }
 
-    public void setProductInsts(List<ProductInstDTO> productInsts) {
-        this.productInsts = productInsts;
+    public void setProductInst(ProductInstDTO productInst) {
+        this.productInst = productInst;
     }
+
 
 }

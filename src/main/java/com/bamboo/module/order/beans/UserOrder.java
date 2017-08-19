@@ -1,6 +1,7 @@
 package com.bamboo.module.order.beans;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -8,7 +9,6 @@ import java.util.Date;
  */
 public class UserOrder implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     /**
      * 订单ID
      */
@@ -39,7 +39,12 @@ public class UserOrder implements Serializable {
      */
     private Date changeTime;
 
+    /**
+     * 订单总价格
+     */
+    private BigDecimal amount;
 
+    private static final long serialVersionUID = 1L;
 
     public String getOrderId() {
         return orderId;
@@ -87,5 +92,13 @@ public class UserOrder implements Serializable {
 
     public void setChangeTime(Date changeTime) {
         this.changeTime = changeTime;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 }
