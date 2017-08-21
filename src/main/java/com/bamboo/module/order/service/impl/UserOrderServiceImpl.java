@@ -18,9 +18,12 @@ import com.bamboo.module.order.dao.ProductInstDao;
 import com.bamboo.module.order.dao.UserOrderDao;
 import com.bamboo.module.order.dto.OrderDetailDTO;
 import com.bamboo.module.order.dto.ProductInstDTO;
+import com.bamboo.module.order.dto.PurchasedProductDTO;
+import com.bamboo.module.order.dto.ShoppingCartDTO;
 import com.bamboo.module.order.dto.UserOrderDTO;
 import com.bamboo.module.order.service.IUserOrderService;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
@@ -103,7 +106,7 @@ public class UserOrderServiceImpl implements IUserOrderService {
             /**
              * 订单保存成功后,减库存.
              */
-            
+
         } catch (Exception ex) {
             logger.error("createUserOrder method error!", ex);
             throw ex;
@@ -134,6 +137,74 @@ public class UserOrderServiceImpl implements IUserOrderService {
     @Override
     public int colseUserOrder(String orderId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int createUserOrder(String userId, List<ProductInstDTO> productInstDto) {
+        /**
+         * 1. 通过产品ID查询产品信息
+         */
+        return 0;
+    }
+
+    @Override
+    public int createOrderFromShoppingCart(ShoppingCartDTO shoppingCart) {
+
+        String userId = shoppingCart.getUserId();
+        String orderId = "";//通过序列生成
+        List<String> orderDetailIds = null;//批量生成序列.
+        List<String> productInstIds = null;//批量生成序列.
+        BigDecimal amount = BigDecimal.ZERO;
+        try {
+            List<PurchasedProductDTO> purchasedProducts = shoppingCart.getPurchasedProducts();
+            List<OrderDetail> orderDetails = new ArrayList(purchasedProducts.size());//订单明细集合
+            List<ProductInst> productInsts = new ArrayList(purchasedProducts.size());//产品实例集合
+            List<ProductInstAttr> salseAttrs = new ArrayList();//产品实例集合
+
+            for (PurchasedProductDTO purchasedProduct : purchasedProducts) {
+                String orderDetailId = orderDetailIds.remove(0);
+                String productInstId = productInstIds.remove(0);
+                /**
+                 * 创建订单明细对象
+                 */
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.setOrderId(orderId);
+                orderDetail.setOrderDetailId(orderDetailId);
+                orderDetail.setPrdctInstId(productInstId);
+                orderDetail.setQuantity(purchasedProduct.getQuantity());
+                orderDetails.add(orderDetail);
+                /**
+                 * 创建产品实例对象
+                 */
+                ProductInst productInst = new ProductInst();
+                productInst.setPrdctId(purchasedProduct.getProductId());
+                productInst.setPrdctInstId(productInstId);
+                productInsts.add(productInst);
+                /**
+                 * 创建产品实例销售属性对象
+                 */
+                List<ProductInstAttr> salesAttrs = purchasedProduct.getSalesAttrs();
+                for (ProductInstAttr attr : salesAttrs) {
+                    attr.setPrdctInstId(productInstId);
+                    salseAttrs.add(attr);
+                }
+            }
+            UserOrder order = new UserOrder();
+            order.setOrderId(orderId);
+            order.setUserId(shoppingCart.getUserId());
+            order.setStatusCd("10");
+            order.setPayedFlag(0);
+            order.setAmount(amount);
+            
+            /**
+             * 批量写入
+             */
+
+        } catch (Exception e) {
+            
+        } finally {
+            return 0;
+        }
     }
 
 }

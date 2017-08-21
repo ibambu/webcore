@@ -5,10 +5,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @author
+ * @author 
  */
 public class UserOrder implements Serializable {
-
     /**
      * 订单ID
      */
@@ -17,7 +16,7 @@ public class UserOrder implements Serializable {
     /**
      * 用户ID
      */
-    private Integer userId;
+    private String userId;
 
     /**
      * 创建时间
@@ -25,12 +24,21 @@ public class UserOrder implements Serializable {
     private Date createTime;
 
     /**
-     * 订单状态 0：配货 1：出库 2：已发货 3：已收货 4：退订 5：完成
+     * 订单状态
+0：配货
+1：出库
+2：已发货
+3：已收货
+4：退订
+5：完成
      */
     private String statusCd;
 
     /**
-     * 支付标识 0：未支付 1：已支付 2：已退款
+     * 支付标识
+0：未支付
+1：已支付
+2：已退款
      */
     private Integer payedFlag;
 
@@ -54,11 +62,11 @@ public class UserOrder implements Serializable {
         this.orderId = orderId;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

@@ -6,13 +6,27 @@
 package com.bamboo.module.order.service;
 
 import com.bamboo.module.order.beans.OrderPayment;
+import com.bamboo.module.order.dto.ProductInstDTO;
+import com.bamboo.module.order.dto.ShoppingCartDTO;
 import com.bamboo.module.order.dto.UserOrderDTO;
+import java.util.List;
 
 /**
  *
  * @author luotao
  */
 public interface IUserOrderService {
+
+    public int createOrderFromShoppingCart(ShoppingCartDTO shoppingCart);
+
+    /**
+     * 创建用户订单
+     *
+     * @param userId
+     * @param productInstDto
+     * @return
+     */
+    public int createUserOrder(String userId, List<ProductInstDTO> productInstDto);
 
     /**
      * 创建订单
