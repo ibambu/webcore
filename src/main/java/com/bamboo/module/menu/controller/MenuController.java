@@ -7,6 +7,7 @@ package com.bamboo.module.menu.controller;
 
 import com.bamboo.module.menu.beans.Menu;
 import com.bamboo.module.menu.service.IMenuService;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +23,12 @@ import org.springframework.web.servlet.ModelAndView;
  * @author luotao
  */
 public class MenuController {
-
+    
     protected Logger log = Logger.getLogger(MenuController.class);
-
+    
     @Resource
     private IMenuService menuService;
+
     /**
      * 菜单跳转
      *
@@ -37,7 +39,7 @@ public class MenuController {
     @RequestMapping(value = "/foward.do", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView fowardToPage(HttpServletRequest request, HttpSession session) {
-
+        
         String menuId = request.getParameter("menuId");
         ModelAndView modelview = new ModelAndView();
         Menu forwardMenu = null;
@@ -56,11 +58,31 @@ public class MenuController {
             } else {
                 modelview.setViewName("error");
             }
-
+            
         } catch (Exception e) {
             log.error("菜单初始化异常", e);
         }
         return modelview;
     }
-   
+    
+    @RequestMapping(value = "/test.do", method = RequestMethod.GET)
+    @ResponseBody
+    public void test(HttpServletRequest request, HttpSession session) {
+        
+        String menuId = request.getParameter("menuId");
+        ModelAndView modelview = new ModelAndView();
+        Menu menu = new Menu();
+        try {
+            menu.setMenuId(111111);
+            menu.setMenuName("test");
+            menu.setMenuHref("#");
+            menu.setParentMenuId("-1");
+            menu.setCreateTime(new Date());
+            menuService.insert(menu);
+            
+        } catch (Exception e) {
+            log.error("菜单初始化异常", e);
+        }
+        return;
+    }
 }

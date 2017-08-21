@@ -19,63 +19,74 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MenuService implements IMenuService {
-
+    
     @Resource
     private MenuDao menuDao;
-
+    
     @Override
     public long countByExample(MenuExample example) {
         return menuDao.countByExample(example);
     }
-
+    
     @Override
     public int deleteByExample(MenuExample example) {
         return menuDao.deleteByExample(example);
     }
-
+    
     @Override
     public int deleteByPrimaryKey(Integer menuId) {
         return menuDao.deleteByPrimaryKey(menuId);
     }
-
+    
     @Override
     public int insert(Menu record) {
-        return menuDao.insert(record);
+        int retcode = 0;
+        try {
+            menuDao.insert(record);
+            
+            record.setMenuId(123456);
+            
+            menuDao.insert(record);
+            
+        } catch (Exception e) {
+            
+        }
+        return retcode;
     }
-
+    
     @Override
     public int insertSelective(Menu record) {
         return menuDao.insertSelective(record);
     }
-
+    
     @Override
     public List<Menu> selectByExample(MenuExample example) {
         return menuDao.selectByExample(example);
     }
-
+    
     @Override
     public Menu selectByPrimaryKey(Integer menuId) {
         return menuDao.selectByPrimaryKey(menuId);
     }
-
+    
     @Override
     public int updateByExampleSelective(Menu record, MenuExample example) {
         return menuDao.updateByExampleSelective(record, example);
     }
-
+    
     @Override
     public int updateByExample(Menu record, MenuExample example) {
         return menuDao.updateByExample(record, example);
     }
-
+    
     @Override
     public int updateByPrimaryKeySelective(Menu record) {
         return menuDao.updateByPrimaryKey(record);
     }
-
+    
     @Override
     public int updateByPrimaryKey(Menu record) {
         return menuDao.updateByPrimaryKey(record);
     }
-
+    
 }
