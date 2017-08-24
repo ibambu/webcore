@@ -67,7 +67,7 @@ public class UserOrderServiceImpl implements IUserOrderService {
              */
             BigDecimal priceTotal = BigDecimal.ZERO;
             List<OrderDetailDTO> orderDetails = userOrder.getOrderDetails();
-            String orderId = sequenceService.getSequenceNo(SeqConstants.ORDER_ID_SEQ);//通过数据库序列生成
+            String orderId = sequenceService.getSequence(SeqConstants.ORDER_ID_SEQ);//通过数据库序列生成
             for (OrderDetailDTO orderDetailDto : orderDetails) {
                 String orderDetailId = "";//通过数据库序列生成
                 String productInstId = "";//通过数据库序列生成
@@ -156,13 +156,13 @@ public class UserOrderServiceImpl implements IUserOrderService {
     public int createOrderFromShoppingCart(ShoppingCartDTO shoppingCart) {
 
         String userId = shoppingCart.getUserId();
-        String orderId = sequenceService.getSequenceNo(SeqConstants.ORDER_ID_SEQ);//通过序列生成
+        String orderId = sequenceService.getSequence(SeqConstants.ORDER_ID_SEQ);//通过序列生成
         BigDecimal amount = BigDecimal.ZERO;
         try {
             List<PurchasedProductDTO> purchasedProducts = shoppingCart.getPurchasedProducts();
             int purchasedNum = purchasedProducts.size();
-            List<String> orderDetailIds = sequenceService.getSomeSequenceNo(SeqConstants.ORDER_DETAIL_SEQ, purchasedNum, true);//批量生成序列.
-            List<String> productInstIds = sequenceService.getSomeSequenceNo(SeqConstants.PRODUCT_INST_ID, purchasedNum, true);//批量生成序列.
+            List<String> orderDetailIds = sequenceService.getSomeSequence(SeqConstants.ORDER_DETAIL_SEQ, purchasedNum, true);
+            List<String> productInstIds = sequenceService.getSomeSequence(SeqConstants.PRODUCT_INST_ID, purchasedNum, true);
             List<OrderDetail> orderDetails = new ArrayList(purchasedNum);//订单明细集合
             List<ProductInst> productInsts = new ArrayList(purchasedNum);//产品实例集合
             List<ProductInstAttr> salseAttrs = new ArrayList();//产品实例集合

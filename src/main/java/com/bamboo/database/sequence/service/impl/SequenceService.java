@@ -28,7 +28,7 @@ public class SequenceService implements ISequenceService {
      * @return
      */
     @Override
-    public String getSequenceNo(String seqName) {
+    public String getSequence(String seqName) {
         return sequenceDao.generateSequenceNo(seqName);
     }
 
@@ -41,7 +41,7 @@ public class SequenceService implements ISequenceService {
      * @return
      */
     @Override
-    public List<String> getSomeSequenceNo(String seqName, int seqCount, boolean isPrefixTime) {
+    public List<String> getSomeSequence(String seqName, int seqCount, boolean isPrefixTime) {
         int currentSeq = Integer.parseInt(sequenceDao.generateSomeSequenceNo(seqName, seqCount));
         List<String> seqlist = new ArrayList();
 
@@ -59,7 +59,7 @@ public class SequenceService implements ISequenceService {
      * @return
      */
     @Override
-    public String getSequenceNoWithTime(String seqName) {
+    public String getSequenceWithTime(String seqName) {
         return DateUtils.getDateTime() + sequenceDao.generateSequenceNo(seqName);
     }
 
