@@ -5,6 +5,8 @@
  */
 package com.bamboo.module.order.service.impl;
 
+import com.bamboo.constants.SeqConstants;
+import com.bamboo.database.sequence.service.ISequenceService;
 import com.bamboo.module.order.beans.OrderDetail;
 import com.bamboo.module.order.beans.OrderPayment;
 import com.bamboo.module.order.beans.OrderPrice;
@@ -53,6 +55,9 @@ public class UserOrderServiceImpl implements IUserOrderService {
     @Resource
     private OrderPriceDao orderPriceDao;
 
+    @Resource
+    private ISequenceService sequenceService;
+
     @Override
     public int createUserOrder(UserOrderDTO userOrder) {
         int retCode = -1;
@@ -62,7 +67,7 @@ public class UserOrderServiceImpl implements IUserOrderService {
              */
             BigDecimal priceTotal = BigDecimal.ZERO;
             List<OrderDetailDTO> orderDetails = userOrder.getOrderDetails();
-            String orderId = "";//通过数据库序列生成
+            String orderId = sequenceService.getSequenceNo(SeqConstants.ORDER_ID_SEQ);//通过数据库序列生成
             for (OrderDetailDTO orderDetailDto : orderDetails) {
                 String orderDetailId = "";//通过数据库序列生成
                 String productInstId = "";//通过数据库序列生成
@@ -151,14 +156,15 @@ public class UserOrderServiceImpl implements IUserOrderService {
     public int createOrderFromShoppingCart(ShoppingCartDTO shoppingCart) {
 
         String userId = shoppingCart.getUserId();
-        String orderId = "";//通过序列生成
-        List<String> orderDetailIds = null;//批量生成序列.
-        List<String> productInstIds = null;//批量生成序列.
+        String orderId = sequenceService.getSequenceNo(SeqConstants.ORDER_ID_SEQ);//通过序列生成
         BigDecimal amount = BigDecimal.ZERO;
         try {
             List<PurchasedProductDTO> purchasedProducts = shoppingCart.getPurchasedProducts();
-            List<OrderDetail> orderDetails = new ArrayList(purchasedProducts.size());//订单明细集合
-            List<ProductInst> productInsts = new ArrayList(purchasedProducts.size());//产品实例集合
+            int purchasedNum = purchasedProducts.size();
+            List<String> orderDetailIds = sequenceService.getSomeSequenceNo(SeqConstants.ORDER_DETAIL_SEQ, purchasedNum, true);//批量生成序列.
+            List<String> productInstIds = sequenceService.getSomeSequenceNo(SeqConstants.PRODUCT_INST_ID, purchasedNum, true);//批量生成序列.
+            List<OrderDetail> orderDetails = new ArrayList(purchasedNum);//订单明细集合
+            List<ProductInst> productInsts = new ArrayList(purchasedNum);//产品实例集合
             List<ProductInstAttr> salseAttrs = new ArrayList();//产品实例集合
 
             for (PurchasedProductDTO purchasedProduct : purchasedProducts) {
@@ -195,13 +201,12 @@ public class UserOrderServiceImpl implements IUserOrderService {
             order.setStatusCd("10");
             order.setPayedFlag(0);
             order.setAmount(amount);
-            
+
             /**
              * 批量写入
              */
-
         } catch (Exception e) {
-            
+
         } finally {
             return 0;
         }
