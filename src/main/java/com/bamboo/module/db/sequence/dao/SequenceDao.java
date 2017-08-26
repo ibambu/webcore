@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bamboo.database.sequence.dao;
+package com.bamboo.module.db.sequence.dao;
 
 import org.apache.ibatis.annotations.Param;
 

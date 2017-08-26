@@ -6,7 +6,7 @@
 package com.bamboo.module.order.service.impl;
 
 import com.bamboo.constants.SeqConstants;
-import com.bamboo.database.sequence.service.ISequenceService;
+import com.bamboo.module.db.sequence.service.ISequenceService;
 import com.bamboo.module.order.beans.OrderDetail;
 import com.bamboo.module.order.beans.OrderPayment;
 import com.bamboo.module.order.beans.OrderPrice;
@@ -154,8 +154,7 @@ public class UserOrderServiceImpl implements IUserOrderService {
 
     @Override
     public int createOrderFromShoppingCart(ShoppingCartDTO shoppingCart) {
-
-        String userId = shoppingCart.getUserId();
+        int retCode = -1;//默认值未失败
         String orderId = sequenceService.getSequence(SeqConstants.ORDER_ID_SEQ);//通过序列生成
         BigDecimal amount = BigDecimal.ZERO;
         try {
@@ -166,8 +165,7 @@ public class UserOrderServiceImpl implements IUserOrderService {
             List<OrderDetail> orderDetails = new ArrayList(purchasedNum);//订单明细集合
             List<ProductInst> productInsts = new ArrayList(purchasedNum);//产品实例集合
             List<ProductInstAttr> salseAttrs = new ArrayList();//产品实例集合
-
-            for (PurchasedProductDTO purchasedProduct : purchasedProducts) {
+            purchasedProducts.forEach((purchasedProduct) -> {
                 String orderDetailId = orderDetailIds.remove(0);
                 String productInstId = productInstIds.remove(0);
                 /**
@@ -190,11 +188,16 @@ public class UserOrderServiceImpl implements IUserOrderService {
                  * 创建产品实例销售属性对象
                  */
                 List<ProductInstAttr> salesAttrs = purchasedProduct.getSalesAttrs();
-                for (ProductInstAttr attr : salesAttrs) {
+                salesAttrs.stream().map((attr) -> {
                     attr.setPrdctInstId(productInstId);
+                    return attr;
+                }).forEachOrdered((attr) -> {
                     salseAttrs.add(attr);
-                }
-            }
+                });
+            });
+            /**
+             * 创建用户订单
+             */
             UserOrder order = new UserOrder();
             order.setOrderId(orderId);
             order.setUserId(shoppingCart.getUserId());
@@ -203,12 +206,24 @@ public class UserOrderServiceImpl implements IUserOrderService {
             order.setAmount(amount);
 
             /**
-             * 批量写入
+             * 开始保存订单数据
              */
+            userOrderDao.insert(order);//用户订单
+            orderDetails.forEach((orderDetail) -> {
+                orderDetailDao.insert(orderDetail);//订单明细
+            });
+            productInsts.forEach((productInst) -> {
+                productInstDao.insert(productInst);//产品实例
+            });
+            salseAttrs.forEach((instAttr) -> {
+                productInstAttrDao.insert(instAttr);//销售属性
+            });
+            retCode = 1;
         } catch (Exception e) {
-
+            retCode = -1;
+            throw e;
         } finally {
-            return 0;
+            return retCode;
         }
     }
 

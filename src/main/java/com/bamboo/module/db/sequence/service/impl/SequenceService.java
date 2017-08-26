@@ -3,19 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bamboo.database.sequence.service.impl;
+package com.bamboo.module.db.sequence.service.impl;
 
-import com.bamboo.database.sequence.dao.SequenceDao;
-import com.bamboo.database.sequence.service.ISequenceService;
+import com.bamboo.module.db.sequence.dao.SequenceDao;
+import com.bamboo.module.db.sequence.service.ISequenceService;
 import com.bamboo.util.DateUtils;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author luotao
  */
+@Service
 public class SequenceService implements ISequenceService {
 
     @Resource

@@ -7,6 +7,7 @@ package com.bamboo.module.menu.controller;
 
 import com.bamboo.module.menu.beans.Menu;
 import com.bamboo.module.menu.service.IMenuService;
+import com.bamboo.module.order.service.IUserOrderService;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
@@ -28,6 +29,9 @@ public class MenuController {
     
     @Resource
     private IMenuService menuService;
+    
+    @Resource
+    private IUserOrderService userOrderService;
 
     /**
      * 菜单跳转
@@ -73,15 +77,17 @@ public class MenuController {
         ModelAndView modelview = new ModelAndView();
         Menu menu = new Menu();
         try {
-            menu.setMenuId(111111);
+            System.out.println("ssssssssssssssssssssssssssssssss");
+            menu.setMenuId(999999);
             menu.setMenuName("test");
             menu.setMenuHref("#");
             menu.setParentMenuId("-1");
             menu.setCreateTime(new Date());
             menuService.insert(menu);
-            
+            System.out.println("4444444444444444444444444444444444");
         } catch (Exception e) {
             log.error("菜单初始化异常", e);
+            e.printStackTrace();
         }
         return;
     }
