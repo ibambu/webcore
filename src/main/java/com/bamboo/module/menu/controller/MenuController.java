@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author luotao
  */
+@Controller
 public class MenuController {
     
     protected Logger log = Logger.getLogger(MenuController.class);
@@ -69,7 +71,7 @@ public class MenuController {
         return modelview;
     }
     
-    @RequestMapping(value = "/test.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/test.do", method = RequestMethod.POST)
     @ResponseBody
     public void test(HttpServletRequest request, HttpSession session) {
         
@@ -78,7 +80,7 @@ public class MenuController {
         Menu menu = new Menu();
         try {
             System.out.println("ssssssssssssssssssssssssssssssss");
-            menu.setMenuId(999999);
+            menu.setMenuId(999998);
             menu.setMenuName("test");
             menu.setMenuHref("#");
             menu.setParentMenuId("-1");

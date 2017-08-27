@@ -45,7 +45,7 @@ public class SequenceService implements ISequenceService {
     @Override
     public List<String> getSomeSequence(String seqName, int seqCount, boolean isPrefixTime) {
         int currentSeq = Integer.parseInt(sequenceDao.generateSomeSequenceNo(seqName, seqCount));
-        List<String> seqlist = new ArrayList();
+        List<String> seqlist = new ArrayList<>();
 
         for (int i = 0; i < seqCount; i++) {
             String seq = isPrefixTime ? DateUtils.getDateTime() + (String.valueOf(currentSeq--)) : String.valueOf(currentSeq--);

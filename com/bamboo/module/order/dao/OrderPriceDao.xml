@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bamboo.module.order.dao.OrderPriceDao">
+  <resultMap id="BaseResultMap" type="com.bamboo.module.order.beans.OrderPrice">
+    <id column="ORDER_DETAIL_ID" jdbcType="VARCHAR" property="orderDetailId" />
+    <result column="ORDER_ID" jdbcType="VARCHAR" property="orderId" />
+    <result column="PRICE" jdbcType="DECIMAL" property="price" />
+    <result column="PRICE_REDUCED" jdbcType="DECIMAL" property="priceReduced" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CHANGE_TIME" jdbcType="TIMESTAMP" property="changeTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ORDER_DETAIL_ID, ORDER_ID, PRICE, PRICE_REDUCED, REMARK, CHANGE_TIME
+  </sql>
+  <select id="selectByExample" parameterType="com.bamboo.module.order.beans.OrderPriceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from to_order_price
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from to_order_price
+    where ORDER_DETAIL_ID = #{orderDetailId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from to_order_price
+    where ORDER_DETAIL_ID = #{orderDetailId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bamboo.module.order.beans.OrderPriceExample">
+    delete from to_order_price
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bamboo.module.order.beans.OrderPrice">
+    <selectKey keyProperty="orderDetailId" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into to_order_price (ORDER_ID, PRICE, PRICE_REDUCED, 
+      REMARK, CHANGE_TIME)
+    values (#{orderId,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{priceReduced,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{changeTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bamboo.module.order.beans.OrderPrice">
+    <selectKey keyProperty="orderDetailId" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into to_order_price
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        ORDER_ID,
+      </if>
+      <if test="price != null">
+        PRICE,
+      </if>
+      <if test="priceReduced != null">
+        PRICE_REDUCED,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="changeTime != null">
+        CHANGE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="priceReduced != null">
+        #{priceReduced,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="changeTime != null">
+        #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bamboo.module.order.beans.OrderPriceExample" resultType="java.lang.Long">
+    select count(*) from to_order_price
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update to_order_price
+    <set>
+      <if test="record.orderDetailId != null">
+        ORDER_DETAIL_ID = #{record.orderDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null">
+        PRICE = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.priceReduced != null">
+        PRICE_REDUCED = #{record.priceReduced,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null">
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.changeTime != null">
+        CHANGE_TIME = #{record.changeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update to_order_price
+    set ORDER_DETAIL_ID = #{record.orderDetailId,jdbcType=VARCHAR},
+      ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      PRICE = #{record.price,jdbcType=DECIMAL},
+      PRICE_REDUCED = #{record.priceReduced,jdbcType=DECIMAL},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      CHANGE_TIME = #{record.changeTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bamboo.module.order.beans.OrderPrice">
+    update to_order_price
+    <set>
+      <if test="orderId != null">
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="priceReduced != null">
+        PRICE_REDUCED = #{priceReduced,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="changeTime != null">
+        CHANGE_TIME = #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ORDER_DETAIL_ID = #{orderDetailId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bamboo.module.order.beans.OrderPrice">
+    update to_order_price
+    set ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=DECIMAL},
+      PRICE_REDUCED = #{priceReduced,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CHANGE_TIME = #{changeTime,jdbcType=TIMESTAMP}
+    where ORDER_DETAIL_ID = #{orderDetailId,jdbcType=VARCHAR}
+  </update>
+</mapper>

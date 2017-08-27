@@ -49,7 +49,7 @@ public class MenuService implements IMenuService {
             menuDao.insert(record);
             
         } catch (Exception e) {
-            
+            e.printStackTrace();
         }
         return retcode;
     }
