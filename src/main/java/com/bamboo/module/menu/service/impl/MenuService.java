@@ -47,7 +47,6 @@ public class MenuService implements IMenuService {
             record.setMenuId(123456);
             
             menuDao.insert(record);
-            
         } catch (Exception e) {
             e.printStackTrace();
         }
