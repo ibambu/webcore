@@ -12,7 +12,7 @@ function getMenuData() {
         dataType: "json",
         cache: false,
         async: false,
-        data: {userName: "userName"},
+        data: {menuId: "999904"},
         beforeSend: function () {
 
         },

@@ -71,20 +71,20 @@ public class MenuController {
         return modelview;
     }
     
-    @RequestMapping(value = "/test.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/test.do", method = RequestMethod.POST,produces = "application/json")
     @ResponseBody
     public void test(HttpServletRequest request, HttpSession session) {
         
-        String menuId = request.getParameter("menuId");
+        String menuId = "999999";
         ModelAndView modelview = new ModelAndView();
         Menu menu = new Menu();
         try {
-            menu.setMenuId(999991);
+            menu.setMenuId(Integer.parseInt(menuId));
             menu.setMenuName("test");
             menu.setMenuHref("#");
             menu.setParentMenuId("-1");
             menu.setCreateTime(new Date());
-            menuService.insert(menu);
+            menuService.insertAA(menu);
         } catch (Exception e) {
             log.error("菜单初始化异常", e);
             e.printStackTrace();
