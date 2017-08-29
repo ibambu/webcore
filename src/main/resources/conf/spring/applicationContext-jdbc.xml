@@ -67,10 +67,10 @@
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"></property>
     </bean>
-  <!-- 使用annotation定义事务 -->
+    <!-- 使用annotation定义事务 -->
     <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true" />
     <!-- 定义个通知，指定事务管理器 -->
-    <tx:advice id="txAdvice" transaction-manager="txManager">
+    <!--    <tx:advice id="txAdvice" transaction-manager="txManager">
         <tx:attributes>
             <tx:method name="delete*" propagation="REQUIRED" read-only="false"
                        rollback-for="java.lang.Exception" />
@@ -86,10 +86,10 @@
             <tx:method name="select*" propagation="SUPPORTS" read-only="true"/>
             <tx:method name="get*" propagation="SUPPORTS" read-only="true"/>
         </tx:attributes>
-    </tx:advice>
-    <aop:config>
-        <!-- 配置一个切入点 -->
+    </tx:advice>-->
+    <!-- 配置一个切入点 -->
+<!--    <aop:config>
         <aop:pointcut id="serviceMethods" expression="execution(* com.bamboo.module.**.**.service.impl.*ServiceImpl.*(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
-    </aop:config>
+    </aop:config>-->
 </beans>
