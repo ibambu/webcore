@@ -30,6 +30,8 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -153,6 +155,7 @@ public class UserOrderServiceImpl implements IUserOrderService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public int createOrderFromShoppingCart(ShoppingCartDTO shoppingCart) {
         int retCode = -1;//默认值未失败
         String orderId = sequenceService.getSequence(SeqConstants.ORDER_ID_SEQ);//通过序列生成
