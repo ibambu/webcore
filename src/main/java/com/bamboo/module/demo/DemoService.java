@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public class DemoService {
 
-    /* 
+    /* SPRING 事务处理说明
     TransactionDefinition接口中定义，共有7种选项可用：
         PROPAGATION_REQUIRED：支持当前事务，如果当前没有事务，就新建一个事务。这是最常见的选择。
         方法A调用事务方法B，如果方法A有一个事务，则方法B不会开启新事务，而是加入方法A的事务中执行。否则方法B开启新事务。
