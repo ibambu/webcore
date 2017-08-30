@@ -21,7 +21,7 @@ public interface IMenuService {
 
     public int deleteByPrimaryKey(Integer menuId);
 
-    public int insert(Menu record)throws Exception ;
+    public int insert(Menu record) throws Exception ;
 
     public int insertSelective(Menu record);
 

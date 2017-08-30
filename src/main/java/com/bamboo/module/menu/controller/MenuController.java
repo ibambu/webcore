@@ -84,7 +84,8 @@ public class MenuController {
             menu.setMenuHref("#");
             menu.setParentMenuId("-1");
             menu.setCreateTime(new Date());
-            menuService.insert(menu);
+            int retcode = menuService.insert(menu);
+            System.out.println(retcode);
         } catch (Exception e) {
             log.error("菜单初始化异常", e);
             e.printStackTrace();

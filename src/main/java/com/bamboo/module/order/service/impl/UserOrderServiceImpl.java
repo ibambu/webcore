@@ -39,27 +39,27 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class UserOrderServiceImpl implements IUserOrderService {
-
+    
     Logger logger = Logger.getLogger(UserOrderServiceImpl.class.getName());
-
+    
     @Resource
     private UserOrderDao userOrderDao;
-
+    
     @Resource
     private OrderDetailDao orderDetailDao;
-
+    
     @Resource
     private ProductInstDao productInstDao;
-
+    
     @Resource
     private ProductInstAttrDao productInstAttrDao;
-
+    
     @Resource
     private OrderPriceDao orderPriceDao;
-
+    
     @Resource
     private ISequenceService sequenceService;
-
+    
     @Override
     public int createUserOrder(UserOrderDTO userOrder) {
         int retCode = -1;
@@ -113,39 +113,39 @@ public class UserOrderServiceImpl implements IUserOrderService {
             /**
              * 订单保存成功后,减库存.
              */
-
+            
         } catch (Exception ex) {
             logger.error("createUserOrder method error!", ex);
             throw ex;
         }
         return retCode;
     }
-
+    
     @Override
     public int updateUserOrderState(int state, String orderId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public int checkUserOrder(String orderId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public int payUserOrder(OrderPayment orderPayment) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public int cancelUserOrder(String orderId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public int colseUserOrder(String orderId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public int createUserOrder(String userId, List<ProductInstDTO> productInstDto) {
         /**
@@ -153,7 +153,7 @@ public class UserOrderServiceImpl implements IUserOrderService {
          */
         return 0;
     }
-
+    
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public int createOrderFromShoppingCart(ShoppingCartDTO shoppingCart) {
@@ -223,11 +223,11 @@ public class UserOrderServiceImpl implements IUserOrderService {
             });
             retCode = 1;
         } catch (Exception e) {
-            retCode = -1;
+            logger.error(retCode, e);
             throw e;
         } finally {
             return retCode;
         }
     }
-
+    
 }
