@@ -20,23 +20,6 @@ public interface IUserOrderService {
     public int createOrderFromShoppingCart(ShoppingCartDTO shoppingCart);
 
     /**
-     * 创建用户订单
-     *
-     * @param userId
-     * @param productInstDto
-     * @return
-     */
-    public int createUserOrder(String userId, List<ProductInstDTO> productInstDto);
-
-    /**
-     * 创建订单
-     *
-     * @param userOrder
-     * @return
-     */
-    public int createUserOrder(UserOrderDTO userOrder);
-
-    /**
      * 更新订单状态
      *
      * @param state
