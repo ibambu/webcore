@@ -39,123 +39,55 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class UserOrderServiceImpl implements IUserOrderService {
-    
+
     Logger logger = Logger.getLogger(UserOrderServiceImpl.class.getName());
-    
+
     @Resource
     private UserOrderDao userOrderDao;
-    
+
     @Resource
     private OrderDetailDao orderDetailDao;
-    
+
     @Resource
     private ProductInstDao productInstDao;
-    
+
     @Resource
     private ProductInstAttrDao productInstAttrDao;
-    
+
     @Resource
     private OrderPriceDao orderPriceDao;
-    
+
     @Resource
     private ISequenceService sequenceService;
-    
-    @Override
-    public int createUserOrder(UserOrderDTO userOrder) {
-        int retCode = -1;
-        try {
-            /**
-             * 保存订单明细信息
-             */
-            BigDecimal priceTotal = BigDecimal.ZERO;
-            List<OrderDetailDTO> orderDetails = userOrder.getOrderDetails();
-            String orderId = sequenceService.getSequence(SeqConstants.ORDER_ID_SEQ);//通过数据库序列生成
-            for (OrderDetailDTO orderDetailDto : orderDetails) {
-                String orderDetailId = "";//通过数据库序列生成
-                String productInstId = "";//通过数据库序列生成
-                OrderDetail orderDetail = orderDetailDto.getOrderDetail();
-                orderDetail.setOrderId(orderId);
-                orderDetail.setOrderDetailId(orderDetailId);
-                orderDetail.setPrdctInstId(productInstId);
-                orderDetailDao.insert(orderDetail);
-                /**
-                 * 保存产品实例信息
-                 */
-                ProductInstDTO productInstDto = orderDetailDto.getProductInst();
-                ProductInst productInst = productInstDto.getProductInst();
-                productInst.setPrdctInstId(productInstId);
-                productInstDao.insert(productInst);
-                /**
-                 * 保存产品属性信息
-                 */
-                List<ProductInstAttr> productInstAttrs = productInstDto.getProuctInstAttrs();
-                for (ProductInstAttr productInstAttr : productInstAttrs) {
-                    productInstAttr.setPrdctInstId(productInstId);
-                    productInstAttrDao.insert(productInstAttr);
-                }
-                /**
-                 * 保存订单明细价格
-                 */
-                OrderPrice orderPrice = orderDetailDto.getOrderPrice();
-                orderPrice.setOrderDetailId(orderDetailId);
-                orderPriceDao.insert(orderPrice);
-                priceTotal = priceTotal.add(orderPrice.getPrice());//即使订单总金额
 
-            }
-            /**
-             * 保存订单基本信息
-             */
-            UserOrder order = userOrder.getUserOrder();
-            order.setOrderId(orderId);
-            order.setAmount(priceTotal);//赋值订单总价格
-            userOrderDao.insert(order);
-            retCode = 1;
-            /**
-             * 订单保存成功后,减库存.
-             */
-            
-        } catch (Exception ex) {
-            logger.error("createUserOrder method error!", ex);
-            throw ex;
-        }
-        return retCode;
-    }
-    
     @Override
     public int updateUserOrderState(int state, String orderId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public int checkUserOrder(String orderId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public int payUserOrder(OrderPayment orderPayment) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public int cancelUserOrder(String orderId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public int colseUserOrder(String orderId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+
     @Override
-    public int createUserOrder(String userId, List<ProductInstDTO> productInstDto) {
-        /**
-         * 1. 通过产品ID查询产品信息
-         */
-        return 0;
-    }
-    
-    @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
     public int createOrderFromShoppingCart(ShoppingCartDTO shoppingCart) {
         int retCode = -1;//默认值未失败
         String orderId = sequenceService.getSequence(SeqConstants.ORDER_ID_SEQ);//通过序列生成
@@ -225,9 +157,8 @@ public class UserOrderServiceImpl implements IUserOrderService {
         } catch (Exception e) {
             logger.error(retCode, e);
             throw e;
-        } finally {
-            return retCode;
         }
+        return retCode;
     }
-    
+
 }
