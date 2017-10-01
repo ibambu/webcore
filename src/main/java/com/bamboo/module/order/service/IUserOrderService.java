@@ -6,10 +6,7 @@
 package com.bamboo.module.order.service;
 
 import com.bamboo.module.order.beans.OrderPayment;
-import com.bamboo.module.order.dto.ProductInstDTO;
 import com.bamboo.module.order.dto.ShoppingCartDTO;
-import com.bamboo.module.order.dto.UserOrderDTO;
-import java.util.List;
 
 /**
  *
@@ -26,7 +23,7 @@ public interface IUserOrderService {
      * @param orderId
      * @return
      */
-    public int updateUserOrderState(int state, String orderId);
+    public int updateUserOrderState(String state, String orderId);
 
     /**
      * 检查订单

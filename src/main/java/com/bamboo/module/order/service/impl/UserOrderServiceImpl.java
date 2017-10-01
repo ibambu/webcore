@@ -9,7 +9,6 @@ import com.bamboo.constants.SeqConstants;
 import com.bamboo.module.db.sequence.service.ISequenceService;
 import com.bamboo.module.order.beans.OrderDetail;
 import com.bamboo.module.order.beans.OrderPayment;
-import com.bamboo.module.order.beans.OrderPrice;
 import com.bamboo.module.order.beans.ProductInst;
 import com.bamboo.module.order.beans.ProductInstAttr;
 import com.bamboo.module.order.beans.UserOrder;
@@ -18,11 +17,8 @@ import com.bamboo.module.order.dao.OrderPriceDao;
 import com.bamboo.module.order.dao.ProductInstAttrDao;
 import com.bamboo.module.order.dao.ProductInstDao;
 import com.bamboo.module.order.dao.UserOrderDao;
-import com.bamboo.module.order.dto.OrderDetailDTO;
-import com.bamboo.module.order.dto.ProductInstDTO;
 import com.bamboo.module.order.dto.PurchasedProductDTO;
 import com.bamboo.module.order.dto.ShoppingCartDTO;
-import com.bamboo.module.order.dto.UserOrderDTO;
 import com.bamboo.module.order.service.IUserOrderService;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -61,8 +57,11 @@ public class UserOrderServiceImpl implements IUserOrderService {
     private ISequenceService sequenceService;
 
     @Override
-    public int updateUserOrderState(int state, String orderId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int updateUserOrderState(String state, String orderId) {
+        UserOrder order = new UserOrder();
+        order.setOrderId(orderId);
+        order.setStatusCd(state);
+        return userOrderDao.updateByPrimaryKeySelective(order);
     }
 
     @Override
@@ -77,14 +76,16 @@ public class UserOrderServiceImpl implements IUserOrderService {
 
     @Override
     public int cancelUserOrder(String orderId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        UserOrder order = new UserOrder();
+        order.setOrderId(orderId);
+        order.setStatusCd(orderId);
+        return userOrderDao.updateByPrimaryKeySelective(order);
     }
 
     @Override
     public int colseUserOrder(String orderId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class, Exception.class})
