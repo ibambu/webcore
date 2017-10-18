@@ -32,14 +32,6 @@ public interface IProductService {
     public Product queryProductById(Integer productId);
 
     /**
-     * 根据产品分类查询产品，包含产品扩展信息。
-     *
-     * @param productKindId
-     * @return
-     */
-    public List<ProductDTO> queryProductsByKindWithExtends(Integer productKindId);
-
-    /**
      * 根据产品分查询产品
      *
      * @param productKindId
@@ -55,12 +47,4 @@ public interface IProductService {
      */
     public List<Product> queryProductsByName(String productName);
 
-    /**
-     * 根据产品名称查询产品，包含产品扩展信息。
-     *
-     * @param productName
-     * @return
-     */
-    public List<ProductDTO> queryProductsByNameWithExtends(String productName);
-    
 }

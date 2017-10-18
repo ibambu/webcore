@@ -23,11 +23,13 @@ import com.bamboo.module.product.dto.ProductDTO;
 import com.bamboo.module.product.service.IProductService;
 import java.util.List;
 import javax.annotation.Resource;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author luotao
  */
+@Service
 public class ProductServiceImpl implements IProductService {
 
     @Resource
@@ -85,10 +87,6 @@ public class ProductServiceImpl implements IProductService {
         return productDao.selectByPrimaryKey(productId);
     }
 
-    @Override
-    public List<ProductDTO> queryProductsByKindWithExtends(Integer productKindId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public List<Product> queryProductsByKind(Integer productKindId) {
@@ -98,11 +96,6 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public List<Product> queryProductsByName(String productName) {
         return productDao.selectByProductName(productName);
-    }
-
-    @Override
-    public List<ProductDTO> queryProductsByNameWithExtends(String productName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
